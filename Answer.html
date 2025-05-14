@@ -1,0 +1,239 @@
+<html>
+<head>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+            input:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+            }
+
+        button {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+            input[type="number"]::-webkit-outer-spin-button,
+            input[type="number"]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 2px;
+            margin-bottom: 10px;
+            display: block;
+        }
+    </style>
+
+    <h2>Form Validation Test</h2>
+
+    <form id="form_deposit">
+        <label>Username:</label>
+        <input type="text" name="username" placeholder="Username" required />
+
+        <label>Password:</label>
+        <input type="password"
+               name="password"
+               id="password"
+               placeholder="Password"
+               required />
+
+        <label>Confirm Password:</label>
+        <input type="password"
+               name="confirm_password"
+               placeholder="Confirm Password"
+               required />
+
+        <label>Email:</label>
+        <input type="email" name="email" maxlength="200" placeholder="Email" />
+
+        <label>Full Name:</label>
+        <input type="text" name="full_name" placeholder="Full Name" />
+
+        <label>Contact:</label>
+        <input type="number" name="contact" placeholder="Contact" />
+
+        <label>Address:</label>
+        <input type="text" name="address" placeholder="Address" />
+
+        <label>State:</label>
+        <input type="text" name="state" placeholder="State" />
+
+        <label>Postcode:</label>
+        <input type="number" name="postcode" placeholder="Postcode" />
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        $.validator.addMethod(
+            "lettersonly",
+            function (value, element) {
+                return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
+            },
+            "Only alphabets are allowed"
+        );
+
+        $(document).ready(function () {
+            $("#form_deposit").validate({
+                rules: {
+                    username: {
+                        required: true,
+                        minlength: 6,
+                        maxlength: 12,
+                    },
+                    password: {
+                        required: true,
+                        minlength: 8,
+                        maxlength: 20,
+                    },
+                    confirm_password: {
+                        required: true,
+                        equalTo: "#password",
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        maxlength: 200,
+                    },
+                    full_name: {
+                        required: true,
+                        minlength: 10,
+                        maxlength: 100,
+                        lettersonly: true,
+                    },
+                    contact: {
+                        required: true,
+                        minlength: 10,
+                        maxlength: 13,
+                        digits: true,
+                    },
+                    address: {
+                        required: true,
+                    },
+                    state: {
+                        required: true,
+                    },
+                    postcode: {
+                        required: true,
+                        digits: true,
+                    },
+                },
+                messages: {
+                    username: {
+                        required: "Username is required",
+                        minlength: "Username minimum length is 6",
+                        maxlength: "Username maximum length is 12",
+                    },
+                    password: {
+                        required: "Password is required",
+                        minlength: "Password minimum length is 8",
+                        maxlength: "Password maximum length is 20",
+                    },
+                    confirm_password: {
+                        required: "Confirm Password is required",
+                        equalTo: "Confirm Passwords do not match with Password",
+                    },
+                    email: {
+                        required: "Email is required",
+                        email: "Invalid email format",
+                        maxlength: "Max length is 200",
+                    },
+                    full_name: {
+                        required: "Full Name is required",
+                        minlength: "Minimum length is 10",
+                        maxlength: "Maximum length is 100",
+                    },
+                    contact: {
+                        required: "Contact is required",
+                        minlength: "Contact minimum length is 10",
+                        maxlength: "Contact maximum length is 13",
+                        digits: "Only numbers allowed",
+                    },
+                    address: {
+                        required: "Address is required",
+                    },
+                    state: {
+                        required: "State is required",
+                    },
+                    postcode: {
+                        required: "Postcode is required",
+                        digits: "Only numbers allowed",
+                    },
+                },
+                errorClass: "error-message",
+                highlight: function (element) {
+                    $(element).css("border", "1px solid red");
+                },
+                unhighlight: function (element) {
+                    $(element).css("border", "1px solid green");
+                },
+                submitHandler: function (form) {
+                    alert("Form Submit");
+                    form.submit();
+                },
+            });
+        });
+    </script>
+
+</body>
+</html>
